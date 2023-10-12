@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    body영역
+    <main>
+        main영역
+        <div>
+            div영역
+            <P>
+                p영역
+                <span>span영역</span>
+            </P>
+        </div>
+        <!-- 해당 링크로 이동하는 기본 동작을, script문 ㄱㄱ -->
+        <!-- <a href="http://naver.com">네이버</a> -->
+    </main>
+    <script>
+        // event.preventDefault()로 막아줄 수 있다.
+        // const $a = document.querySelector('a')
+        // $a.addEventListener('click', function(event) {
+        //     event.preventDefault();
+        // });
+        const $body = document.querySelector('body')
+        const $main = document.querySelector('main')
+        const $div = document.querySelector('div')
+        const $p = document.querySelector('p')
+        const $span = document.querySelector('span')
+
+        // capturing (아래 순서대로 전파)
+        $body.addEventListener('click', function(event) {
+            console.log('['+ event.eventPhase +']capturing body');
+        }, true);
+        // event.eventPhase 이벤트 흐름 단계를 나타낸다.
+        // capturing을 통해 이벤트가 부모객체에서 타겟객체까지 전파되는 값은 [1]
+        // 이벤트가 타겟객체에 도착했을때 값은 [2]
+        // bubbling을 통해 이벤트가 타겟객체에서 부모객체로 전파 되는 값은 [3]
+
+        $main.addEventListener('click', function() {
+            console.log('capturing main');
+        }, true);
+        $div.addEventListener('click', function() {
+            console.log('capturing div');
+        }, true);
+        $p.addEventListener('click', function() {
+            console.log('capturing p');
+        }, true);
+        $span.addEventListener('click', function() {
+            console.log('capturing span');
+        }, true);
+
+        // bubbling (아래 순서대로 전파)
+        $span.addEventListener('click', function(event) {
+            event.stopPropagation();
+            console.log('bubbling span');
+        });
+        // event.stopPropagation() 이벤트 전파를 막는 메소드.
+        // 해당 태그 다음부터 전파가 막힌다.
+
+        $p.addEventListener('click', function() {
+            console.log('bubbling p');
+        });
+        $div.addEventListener('click', function() {
+            console.log('bubbling div');
+        });
+        $main.addEventListener('click', function() {
+            console.log('bubbling main');
+        });
+        $body.addEventListener('click', function() {
+            console.log('bubbling body');
+        });
+        // addEventListener는 기본적으로 버블링으로 작동한다.
+        // 위와 같이 각각 click이벤트를 줬을때 해당 요소의 상위요소들에 함께 작용됨.
+        // 이를 버블링이라고 한다.
+    </script>
+</body>
+</html>
